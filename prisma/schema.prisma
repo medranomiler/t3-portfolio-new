@@ -19,6 +19,7 @@ model Post {
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    content String @db.VarChar(255)
 
     @@index([name])
 }
