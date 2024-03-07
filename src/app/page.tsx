@@ -1,14 +1,14 @@
-import { SignInButton, SignOutButton, auth, currentUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, currentUser } from "@clerk/nextjs";
 
 import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
+// import { CreatePost } from "~/app/_components/create-post";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
   noStore();
-  
+
   const data = await api.post.getAll.query();
 
   const user = await currentUser();
@@ -18,10 +18,26 @@ export default async function Home() {
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <div className="w-full max-w-xs">
           {data ? (
-            data.map((p) => (
-              <p key={p.id} className="truncate">
-                {p.name}
-              </p>
+            data.map(({ post, author }) => (
+              <div
+                key={post.id}
+                className="h-48 w-96 rounded-lg border border-white bg-black p-2 flex flex-col my-2"
+              >
+                <div className="flex flex-row justify-between">
+                  <div className="flex flex-row">
+                    <img
+                      src={author.imageUrl}
+                      className="mr-4 h-12 w-12 rounded-full"
+                    />
+
+                    <p>@{author.username}</p>
+                  </div>
+                  <p>{post.createdAt.toLocaleDateString()}</p>
+                </div>
+                <div className="w-full grow p-2">
+                  <p>{post.content}</p>
+                </div>
+              </div>
             ))
           ) : (
             <p>You have no posts yet.</p>
@@ -41,12 +57,12 @@ async function CrudShowcase() {
   return (
     <div className="w-full max-w-xs">
       {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
+        <p className="truncate">Your most recent post: {latestPost.content}</p>
       ) : (
         <p>You have no posts yet.</p>
       )}
 
-      <CreatePost />
+      {/* <CreatePost /> */}
     </div>
   );
 }
