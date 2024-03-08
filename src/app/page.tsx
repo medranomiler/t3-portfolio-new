@@ -3,7 +3,7 @@ import { SignInButton, SignOutButton, currentUser } from "@clerk/nextjs";
 import { unstable_noStore as noStore } from "next/cache";
 import Link from "next/link";
 
-// import { CreatePost } from "~/app/_components/create-post";
+import { CreatePost } from "~/app/_components/create-post";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
@@ -16,12 +16,12 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <div className="w-full max-w-xs">
+        <div className="w-full flex flex-col items-center justify-center ">
           {data ? (
             data.map(({ post, author }) => (
               <div
                 key={post.id}
-                className="h-48 w-96 rounded-lg border border-white bg-black p-2 flex flex-col my-2"
+                className="h-48 w-full sm:w-96 sm:rounded-lg sm:border sm:border-white bg-black p-2 flex flex-col my-2"
               >
                 <div className="flex flex-row justify-between">
                   <div className="flex flex-row">
@@ -62,7 +62,7 @@ async function CrudShowcase() {
         <p>You have no posts yet.</p>
       )}
 
-      {/* <CreatePost /> */}
+      <CreatePost />
     </div>
   );
 }
