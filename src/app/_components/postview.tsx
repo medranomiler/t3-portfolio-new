@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import type { RouterOutputs } from "~/trpc/shared";
 
 type PostWithUser = RouterOutputs["post"]["getAll"][number]
