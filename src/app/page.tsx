@@ -12,6 +12,7 @@ export default async function Home() {
   noStore();
 
   const data = await api.post.getAll.query();
+  console.log(data)
 
   const user = await currentUser();
 

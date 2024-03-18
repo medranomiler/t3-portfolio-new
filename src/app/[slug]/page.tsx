@@ -7,6 +7,8 @@ const ProfileFeed = async (props: { userId: string }) => {
     userId: props.userId,
   });
 
+  console.log("getPostsByUserId: ", data)
+
   return (
     <div className="flex flex-col">
       {data.map((fullPost) => (

@@ -3,7 +3,7 @@ import type { RouterOutputs } from "~/trpc/shared";
 type PostWithUser = RouterOutputs["post"]["getAll"][number]
 export function PostView(props: PostWithUser){
 
-  const  { post, author }   = props
+  const  { post, author } = props
   return (
     <div
     key={post.id}
