@@ -9,54 +9,54 @@ import { api } from "~/trpc/react";
 export function CreatePostWizard() {
   const router = useRouter();
   const [content, setContent] = useState("");
-  const { user } = useUser()
+  const { user } = useUser();
 
-  if(!user){
-    return null
+  const createPost = api.post.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+      setContent("");
+    },
+  });
+
+  if (!user) {
+    return null;
   }
 
-  // const createPost = api.post.create.useMutation({
-  //   onSuccess: () => {
-  //     router.refresh();
-  //     setContent("");
-  //   },
-  // });
-
   return (
-    <div className="flex w-full gap-3">
-      <img 
-        src={user.imageUrl}
-        alt="Profile-image"
-        className="h-14 w-14 rounded-full"
-        />
-        <input 
-          placeholder="What's happening?" 
-          className="bg-transparent outline-none"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
+    <div className="w-full border border-slate-500 p-4">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          createPost.mutate({ content });
+        }}
+        className="flex h-48 w-full flex-col justify-between gap-2"
+      >
+        <div className={"flex w-full grow flex-row items-start gap-3"}>
+          <img
+            src={user.imageUrl}
+            alt="Profile-image"
+            className="h-10 w-10 rounded-full"
+          />
+          <textarea
+            placeholder="What's happening?"
+            className="grow resize-none bg-transparent text-lg outline-none"
+            rows={5}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+        <div className={"flex w-full flex-row justify-end"}>
+          <button
+            type="submit"
+            disabled={createPost.isLoading}
+            className={
+              "w-fit rounded-full bg-blue-50 px-6 py-2 font-bold text-black"
+            }
+          >
+            {createPost.isLoading ? "posting..." : "post"}
+          </button>
+        </div>
+      </form>
     </div>
-    // <form
-    //   onSubmit={(e) => {
-    //     e.preventDefault();
-    //     createPost.mutate({ content });
-    //   }}
-    //   className="flex flex-col gap-2"
-    // >
-    //   <input
-    //     type="text"
-    //     placeholder="Title"
-    //     value={content}
-    //     onChange={(e) => setContent(e.target.value)}
-    //     className="w-full rounded-full px-4 py-2 text-black"
-    //   />
-    //   <button
-    //     type="submit"
-    //     className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-    //     disabled={createPost.isLoading}
-    //   >
-    //     {createPost.isLoading ? "Submitting..." : "Submit"}
-    //   </button>
-    // </form>
   );
 }
