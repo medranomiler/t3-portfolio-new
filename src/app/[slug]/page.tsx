@@ -20,7 +20,6 @@ const ProfileFeed = async (props: { userId: string }) => {
 
 export default async function ProfilePage({ params }: { params: { slug: string } }){
   const username = decodeURIComponent(params.slug).replace("@", "")
-  console.log({username})
   const data = await api.profile.getUserByUsername.query({
     username,
   });
