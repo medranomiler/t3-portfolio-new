@@ -17,12 +17,12 @@ export default async function Home() {
   const user = await currentUser();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
-
-      {!user && <SignInButton/>}
-      {!!user && <SignOutButton/>}
-      
-        <div className="w-full max-w-lg flex flex-col items-center justify-center ">
+    <main className="flex h-screen flex-row w-screen items-center justify-center bg-black text-white">
+      <div className="flex flex-col min-w-24 flex-1 h-full border-white">
+        sidebar
+      </div>
+      <div className="w-full max-w-xl flex flex-col items-center border-x border-slate-500 h-full">
+        <div className={"h-16 w-full"}>tabs</div>
         <CreatePostWizard />
           {...data?.map((fullPost) => (
               <PostView {...fullPost}  key={fullPost.post.id}/>
@@ -30,7 +30,9 @@ export default async function Home() {
           }
           
         </div>
-
+      <div className="md:flex flex-col flex-1 h-full hidden">
+        discover
+      </div>
     </main>
   );
 }

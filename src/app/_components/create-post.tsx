@@ -23,13 +23,13 @@ export function CreatePostWizard() {
   }
 
   return (
-    <div className="w-full border border-slate-500 p-4">
+    <div className="w-full border-y border-slate-500 p-4">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           createPost.mutate({ content });
         }}
-        className="flex h-48 w-full flex-col justify-between gap-2"
+        className="flex h-36 w-full flex-col justify-between gap-2"
       >
         <div className={"flex w-full grow flex-row items-start gap-3"}>
           <img
@@ -38,14 +38,14 @@ export function CreatePostWizard() {
             className="h-10 w-10 rounded-full"
           />
           <textarea
-            placeholder="What's happening?"
-            className="grow resize-none bg-transparent text-lg outline-none"
-            rows={5}
+            placeholder="What is happening?!"
+            className="grow resize-none bg-transparent text-lg outline-none py-2"
+            rows={2}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className={"flex w-full flex-row justify-end"}>
+        <div className={"flex w-full flex-row justify-end py-2"}>
           <button
             type="submit"
             disabled={createPost.isLoading}
