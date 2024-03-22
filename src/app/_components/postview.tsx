@@ -12,11 +12,7 @@ export function PostView(props: PostWithUser) {
         <img src={author.imageUrl} className="h-10 w-10 rounded-full" />
       </div>
       <div className={"flex flex-1 flex-col"}>
-        <div
-          className={
-            "flex h-10 w-full flex-row justify-between"
-          }
-        >
+        <div className={"flex h-10 w-full flex-row justify-between"}>
           <p>{`@${author.username}`}</p>
           <p>{post.createdAt.toLocaleDateString()}</p>
         </div>

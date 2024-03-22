@@ -23,21 +23,25 @@ export default function Home() {
   return (
     <main className="flex min-h-screen w-screen flex-row items-center justify-center bg-black text-white">
       <SideBar />
-      <div className="flex h-screen w-full max-w-xl flex-col items-center border-x border-slate-500 overflow-y-scroll pt-12 overscroll-none" style={{scrollbarWidth: "none"}}>
+      <div
+        className="flex h-screen w-full max-w-xl flex-col items-center overflow-y-scroll overscroll-none border-x border-slate-500 pt-12"
+        style={{ scrollbarWidth: "none" }}
+      >
         <TabFilters />
         <CreatePostWizard />
         {...data?.map((fullPost) => (
           <PostView {...fullPost} key={fullPost.post.id} />
         ))}
-                {...data?.map((fullPost) => (
+        {...data?.map((fullPost) => (
           <PostView {...fullPost} key={fullPost.post.id} />
         ))}
-                {...data?.map((fullPost) => (
+        {...data?.map((fullPost) => (
           <PostView {...fullPost} key={fullPost.post.id} />
-        ))}        {...data?.map((fullPost) => (
+        ))}{" "}
+        {...data?.map((fullPost) => (
           <PostView {...fullPost} key={fullPost.post.id} />
         ))}
-                {...data?.map((fullPost) => (
+        {...data?.map((fullPost) => (
           <PostView {...fullPost} key={fullPost.post.id} />
         ))}
       </div>
@@ -46,12 +50,21 @@ export default function Home() {
   );
 }
 
-export function SideBar() {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const navItems = ["🏠 Home", "🔍 Explore", "🔔 Notifications", "✉️ Messages", "📋 Lists", "🔖 Bookmarks", "👥 Communities", "🤦‍♂️ Profile"]
+function SideBar() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const navItems = [
+    "🏠 Home",
+    "🔍 Explore",
+    "🔔 Notifications",
+    "✉️ Messages",
+    "📋 Lists",
+    "🔖 Bookmarks",
+    "👥 Communities",
+    "🤦‍♂️ Profile",
+  ];
   return (
-    <div className="hidden h-screen flex-1 flex-col items-end lg:items-center md:flex px-4">
-      <div className={"h-16 w-16  md:w-full md:px-8 p-4"}>
+    <div className="hidden h-screen flex-1 flex-col items-end px-4 md:flex lg:items-center">
+      <div className={"h-16 w-16  p-4 md:w-full md:px-8"}>
         <img
           src={
             "https://upload.wikimedia.org/wikipedia/commons/9/95/Twitter_new_X_logo.png?20230802142353"
@@ -59,40 +72,61 @@ export function SideBar() {
           className={"h-8 w-8 object-contain"}
         />
       </div>
-        {
-          navItems.map((navItem, index) => (
-            <button onClick={()=> {setSelectedIndex(index)}} key={index} className={"h-16 w-16 md:w-full md:px-8 p-4 lg:flex flex-row lg:justify-start lg:w-64 hidden"}>
-            <p className={ `text-xl ${selectedIndex === index ? "font-semibold" : "font-normal"}`}>{navItem}</p>
-            
-          </button>
-          ))
-        }
-                {
-          navItems.map((navItem, index) => (
-            <button onClick={()=> {setSelectedIndex(index)}} key={index} className={"h-16 w-16 md:w-full md:px-8 p-4 flex flex-row lg:hidden justify-end"}>
-            <p className={ `text-xl ${selectedIndex === index ? "font-semibold" : "font-normal"}`}>{navItem.slice(0, 1)}</p>
-            
-          </button>
-          ))
-        }
-                  <button
-            type="submit"
-
-            className={
-              "w-full max-w-48 rounded-full bg-blue-50 px-6 py-4 font-bold text-black"
-            }
+      {navItems.map((navItem, index) => (
+        <button
+          onClick={() => {
+            setSelectedIndex(index);
+          }}
+          key={index}
+          className={
+            "hidden h-16 w-16 flex-row p-4 md:w-full md:px-8 lg:flex lg:w-64 lg:justify-start"
+          }
+        >
+          <p
+            className={`text-xl ${selectedIndex === index ? "font-semibold" : "font-normal"}`}
           >
-            Post
-          </button>
+            {navItem}
+          </p>
+        </button>
+      ))}
+      {navItems.map((navItem, index) => (
+        <button
+          onClick={() => {
+            setSelectedIndex(index);
+          }}
+          key={index}
+          className={
+            "flex h-16 w-16 flex-row justify-end p-4 md:w-full md:px-8 lg:hidden"
+          }
+        >
+          <p
+            className={`text-xl ${selectedIndex === index ? "font-semibold" : "font-normal"}`}
+          >
+            {navItem.slice(0, 1)}
+          </p>
+        </button>
+      ))}
+      <button
+        type="submit"
+        className={
+          "w-full max-w-48 rounded-full bg-blue-50 px-6 py-4 font-bold text-black"
+        }
+      >
+        Post
+      </button>
     </div>
   );
 }
 
-export function SearchPanel() {
+function SearchPanel() {
   return (
-    <div className="hidden h-screen flex-1 flex-col md:flex py-1 px-4">
-      <input className={"w-full rounded-full bg-[#242424] h-10 hidden lg:flex px-4 py-2"} placeholder={"search"}/>
-      
+    <div className="hidden h-screen flex-1 flex-col px-4 py-1 md:flex">
+      <input
+        className={
+          "hidden h-10 w-full rounded-full bg-[#242424] px-4 py-2 lg:flex"
+        }
+        placeholder={"search"}
+      />
     </div>
   );
 }
