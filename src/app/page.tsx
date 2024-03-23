@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client";
 
-import { SignInButton, SignOutButton, useAuth, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, useAuth, useUser, UserButton } from "@clerk/nextjs";
 import {
   BsFillHouseDoorFill,
   BsSearch,
@@ -13,6 +13,7 @@ import {
   BsFillPersonFill,
   BsThreeDots,
   BsTwitterX,
+  BsBoxArrowInRight
 } from "react-icons/bs";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -35,15 +36,15 @@ export default function Home() {
           <CenterPanel />
         <SearchPanel />
       </div>
-      {/* <BottomNavbar /> */}
+      <BottomNavbar />
     </main>
   );
 }
 
 function SideBar() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // const [selectedIndex, setSelectedIndex] = useState(0);
   const { user } = useUser();
-
+  console.log(user)
   const navItems = [
     <div className={"flex flex-row items-center space-x-2"}>
       <BsFillHouseDoorFill className={"h-6 w-6"} />
@@ -84,9 +85,9 @@ function SideBar() {
       <div className={"flex h-fit w-full flex-col items-end px-4"}>
         {navItems.map((navItem, index) => (
           <button
-            onClick={() => {
-              setSelectedIndex(index);
-            }}
+            // onClick={() => {
+            //   setSelectedIndex(index);
+            // }}
             key={index}
             className={"h-16 w-16 flex-row p-4 lg:block lg:w-64"}
           >
@@ -104,20 +105,31 @@ function SideBar() {
       </div>
 
       <div className={"hidden h-24 w-full flex-row justify-end p-4 lg:flex"}>
-        <div className={"flex h-full w-64 flex-row justify-between"}>
+        {user ? <div className={"flex h-full w-64 flex-row justify-between"}>
           <div className={"flex w-fit flex-row gap-x-3"}>
             <img src={user?.imageUrl} className={"h-10 w-10 rounded-full"} />
             <p>@{user?.username}</p>
           </div>
           <BsThreeDots className={""} />
-        </div>
+        </div> : 
+        <button className={"text-blue-300 w-full max-w-64 border border-white rounded-full"}>
+                  <SignInButton>
+              <p>Sign In</p>
+          </SignInButton>
+        </button>
+}
       </div>
       <div className={"flex h-fit w-full flex-col items-end px-2 lg:hidden"}>
-        <button className={"h-16 w-16 flex-row lg:block lg:w-64"}>
-          <img
+         <button className={"h-16 w-16 flex-row lg:block lg:w-64"}>
+          {user ?<img
             src={user?.imageUrl}
             className={"block h-10 w-10 rounded-full"}
-          />
+          />:
+          
+        <SignInButton>
+          <BsBoxArrowInRight className={"h-6 w-6"}/>
+        </SignInButton>
+        }
         </button>
       </div>
     </div>
@@ -158,16 +170,17 @@ function SearchPanel() {
         >
           <p className={"text-xl font-bold"}>Whats Happening</p>
           <p className={"text-sm font-light"}>
-            Whats Happening
+            #EndTheFed
           </p>
-          {/* <button
-            type="submit"
-            className={
-              "w-fit max-w-36 rounded-full bg-blue-50 px-4 py-2 font-bold text-black"
-            }
-          >
-            Subscribe
-          </button> */}
+          <p className={"text-sm font-light"}>
+            #Bitcoin
+          </p>
+          <p className={"text-sm font-light"}>
+            #buybitcoin
+          </p>
+          <p className={"text-sm font-light"}>
+            #bitcoinnotshitcoin
+          </p>
         </div>
       </div>
     </div>
@@ -191,7 +204,7 @@ function CenterPanel() {
 
   return (
     <div
-      className="w-full h-screen overflow-y-scroll overscroll-none md:min-w-[30rem] md:max-w-xl border-x border-slate-500 bg-black pb-16"
+      className="w-full h-screen overflow-y-scroll overscroll-none md:min-w-[30rem] md:max-w-xl border-x border-slate-500 bg-black pb-24 md:pb-16"
 
       style={{ scrollbarWidth: "none" }}
     >
@@ -207,12 +220,17 @@ function CenterPanel() {
 }
 
 function BottomNavbar() {
+  const { user } = useUser();
+
   const bottomNavItems = [
     <BsFillHouseDoorFill className={"h-6 w-6"} />,
     <BsSearch className={"h-6 w-6"} />,
     <BsCardList className={"h-6 w-6"} />,
     <BsBell className={"h-6 w-6"} />,
     <BsEnvelope className={"h-6 w-6"} />,
+    <SignInButton>
+      {user ? <UserButton />:<BsBoxArrowInRight className={"h-6 w-6"} />}
+    </SignInButton>
   ];
 
   return (
