@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <main className="flex h-screen w-screen flex-col overscroll-none overflow-hidden bg-black text-white">
       <TabFilters />
-      <div className={"flex grow flex-col md:flex-row md:bg-green-500"}>
+      <div className={"flex grow flex-col md:flex-row md:bg-black"}>
         <SideBar />
           <CenterPanel />
         <SearchPanel />
