@@ -1,7 +1,11 @@
 /* eslint-disable react/jsx-key */
 "use client";
 
-import { SignInButton, SignOutButton, useAuth, useUser, UserButton } from "@clerk/nextjs";
+import {
+  SignInButton,
+  useUser,
+  UserButton,
+} from "@clerk/nextjs";
 import {
   BsFillHouseDoorFill,
   BsSearch,
@@ -13,7 +17,8 @@ import {
   BsFillPersonFill,
   BsThreeDots,
   BsTwitterX,
-  BsBoxArrowInRight
+  BsBoxArrowInRight,
+  BsGear,
 } from "react-icons/bs";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -29,11 +34,11 @@ export default function Home() {
   noStore();
 
   return (
-    <main className="flex h-screen w-screen flex-col overscroll-none overflow-hidden bg-black text-white">
+    <main className="flex h-screen w-screen flex-col overflow-hidden overscroll-none bg-black text-white">
       <TabFilters />
       <div className={"flex grow flex-col md:flex-row md:bg-black"}>
         <SideBar />
-          <CenterPanel />
+        <CenterPanel />
         <SearchPanel />
       </div>
       <BottomNavbar />
@@ -44,7 +49,7 @@ export default function Home() {
 function SideBar() {
   // const [selectedIndex, setSelectedIndex] = useState(0);
   const { user } = useUser();
-  console.log(user)
+  console.log(user);
   const navItems = [
     <div className={"flex flex-row items-center space-x-2"}>
       <BsFillHouseDoorFill className={"h-6 w-6"} />
@@ -81,7 +86,7 @@ function SideBar() {
   ];
 
   return (
-    <div className="hidden justify-between bg-black md:flex md:flex-1 md:flex-col pb-16">
+    <div className="hidden justify-between bg-black pb-16 md:flex md:flex-1 md:flex-col">
       <div className={"flex h-fit w-full flex-col items-end px-4"}>
         {navItems.map((navItem, index) => (
           <button
@@ -105,31 +110,38 @@ function SideBar() {
       </div>
 
       <div className={"hidden h-24 w-full flex-row justify-end p-4 lg:flex"}>
-        {user ? <div className={"flex h-full w-64 flex-row justify-between"}>
-          <div className={"flex w-fit flex-row gap-x-3"}>
-            <img src={user?.imageUrl} className={"h-10 w-10 rounded-full"} />
-            <p>@{user?.username}</p>
+        {user ? (
+          <div className={"flex h-full w-64 flex-row justify-between"}>
+            <div className={"flex w-fit flex-row gap-x-3"}>
+              <img src={user?.imageUrl} className={"h-10 w-10 rounded-full"} />
+              <p>@{user?.username}</p>
+            </div>
+            <BsThreeDots className={""} />
           </div>
-          <BsThreeDots className={""} />
-        </div> : 
-        <button className={"text-blue-300 w-full max-w-64 border border-white rounded-full"}>
-                  <SignInButton>
+        ) : (
+          <button
+            className={
+              "w-full max-w-64 rounded-full border border-white text-blue-300"
+            }
+          >
+            <SignInButton>
               <p>Sign In</p>
-          </SignInButton>
-        </button>
-}
+            </SignInButton>
+          </button>
+        )}
       </div>
       <div className={"flex h-fit w-full flex-col items-end px-2 lg:hidden"}>
-         <button className={"h-16 w-16 flex-row lg:block lg:w-64"}>
-          {user ?<img
-            src={user?.imageUrl}
-            className={"block h-10 w-10 rounded-full"}
-          />:
-          
-        <SignInButton>
-          <BsBoxArrowInRight className={"h-6 w-6"}/>
-        </SignInButton>
-        }
+        <button className={"h-16 w-16 flex-row lg:block lg:w-64"}>
+          {user ? (
+            <img
+              src={user?.imageUrl}
+              className={"block h-10 w-10 rounded-full"}
+            />
+          ) : (
+            <SignInButton>
+              <BsBoxArrowInRight className={"h-6 w-6"} />
+            </SignInButton>
+          )}
         </button>
       </div>
     </div>
@@ -169,18 +181,10 @@ function SearchPanel() {
           }
         >
           <p className={"text-xl font-bold"}>Whats Happening</p>
-          <p className={"text-sm font-light"}>
-            #EndTheFed
-          </p>
-          <p className={"text-sm font-light"}>
-            #Bitcoin
-          </p>
-          <p className={"text-sm font-light"}>
-            #buybitcoin
-          </p>
-          <p className={"text-sm font-light"}>
-            #bitcoinnotshitcoin
-          </p>
+          <p className={"text-sm font-light"}>#EndTheFed</p>
+          <p className={"text-sm font-light"}>#Bitcoin</p>
+          <p className={"text-sm font-light"}>#buybitcoin</p>
+          <p className={"text-sm font-light"}>#bitcoinnotshitcoin</p>
         </div>
       </div>
     </div>
@@ -204,8 +208,7 @@ function CenterPanel() {
 
   return (
     <div
-      className="w-full h-screen overflow-y-scroll overscroll-none md:min-w-[30rem] md:max-w-xl border-x border-slate-500 bg-black pb-24 md:pb-16"
-
+      className="h-screen w-full overflow-y-scroll overscroll-none border-x border-slate-500 bg-black pb-24 md:min-w-[30rem] md:max-w-xl md:pb-16"
       style={{ scrollbarWidth: "none" }}
     >
       <CreatePostWizard />
@@ -220,17 +223,12 @@ function CenterPanel() {
 }
 
 function BottomNavbar() {
-  const { user } = useUser();
-
   const bottomNavItems = [
     <BsFillHouseDoorFill className={"h-6 w-6"} />,
     <BsSearch className={"h-6 w-6"} />,
     <BsCardList className={"h-6 w-6"} />,
     <BsBell className={"h-6 w-6"} />,
     <BsEnvelope className={"h-6 w-6"} />,
-    <SignInButton>
-      {user ? <UserButton />:<BsBoxArrowInRight className={"h-6 w-6"} />}
-    </SignInButton>
   ];
 
   return (
@@ -253,11 +251,11 @@ function BottomNavbar() {
 
 function TabFilters() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
+  const { user } = useUser();
   const tabs = ["For you", "Following"];
 
   return (
-    <div className={"flex h-16 w-full flex-row"}>
+    <div className={"flex w-full flex-row md:h-16"}>
       <div className="hidden justify-between bg-black md:flex md:flex-1 md:flex-col">
         <div className={"flex h-fit w-full flex-col items-end px-4"}>
           <button
@@ -267,26 +265,48 @@ function TabFilters() {
           </button>
         </div>
       </div>
+
       <div
         className={
-          "flex w-full md:min-w-[30rem] md:max-w-xl flex-row border-x border-b border-x-slate-500 border-b-slate-500 bg-black"
+          "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
         }
       >
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            className={"flex flex-1 flex-col items-center justify-end"}
-          >
-            <button
-              className={`flex flex-col items-center justify-end p-2 ${selectedIndex === index ? "border-b-4 border-b-blue-500 font-bold text-white" : "border-b-4 border-b-black text-slate-500"}`}
-              onClick={() => {
-                setSelectedIndex(index);
-              }}
-            >
-              <p className={"text-center"}>{tab}</p>
-            </button>
+        <div
+          className={
+            "flex w-full flex-row items-center justify-between p-4 md:hidden"
+          }
+        >
+          <div className={"flex w-1/2 flex-row items-center gap-4"}>
+            {user ? (
+              <UserButton/>
+            ) : (
+              <SignInButton>
+                <BsBoxArrowInRight className={"h-6 w-6"} />
+              </SignInButton>
+            )}
+            <p className={"text-lg font-bold"}>Home</p>
           </div>
-        ))}
+          <BsGear className={"w-6 h-6"}/>
+        </div>
+        <div className={"flex w-full flex-row md:h-full"}>
+          {tabs.map((tab, index) => (
+            <div
+              key={index}
+              className={
+                "flex w-1/2 flex-col items-center justify-end"
+              }
+            >
+              <button
+                className={`flex flex-col items-center justify-end p-2 ${selectedIndex === index ? "border-b-4 border-b-blue-500 font-bold text-white" : "border-b-4 border-b-black text-slate-500"}`}
+                onClick={() => {
+                  setSelectedIndex(index);
+                }}
+              >
+                <p className={"text-center"}>{tab}</p>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="hidden items-start justify-center bg-black md:flex md:flex-1 md:flex-col">
