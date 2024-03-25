@@ -13,8 +13,8 @@ export function CreatePostWizard() {
 
   const createPost = api.post.create.useMutation({
     onSuccess: () => {
-      router.refresh();
       setContent("");
+      router.replace("/")
     },
   });
 
@@ -23,7 +23,7 @@ export function CreatePostWizard() {
   }
 
   return (
-    <div className="w-full border-y border-slate-500 p-4">
+    <div className="w-full p-4 text-white">
       <form
         onSubmit={(e) => {
           e.preventDefault();

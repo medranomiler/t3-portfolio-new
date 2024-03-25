@@ -4,6 +4,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { TabFilters, SideBar, SearchPanel, BottomNavbar } from "./page";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,14 +19,28 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={`font-sans ${inter.variable} overscroll-none`}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <main className="flex h-screen w-screen flex-col overflow-hidden overscroll-none bg-black text-white">
+              <TabFilters />
+              <div className={"flex grow flex-col md:flex-row md:bg-black"}>
+                <SideBar />
+                {children}
+                <SearchPanel />
+              </div>
+              <BottomNavbar />
+            </main>
+            {modal}
+            <div id="modal-root" />
+          </TRPCReactProvider>
         </body>
       </html>
     </ClerkProvider>

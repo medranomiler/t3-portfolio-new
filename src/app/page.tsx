@@ -1,11 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client";
 
-import {
-  SignInButton,
-  useUser,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignInButton, useUser, UserButton } from "@clerk/nextjs";
 import {
   BsFillHouseDoorFill,
   BsSearch,
@@ -19,6 +15,7 @@ import {
   BsTwitterX,
   BsBoxArrowInRight,
   BsGear,
+  BsArrowLeft,
 } from "react-icons/bs";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -29,26 +26,18 @@ import { api } from "~/trpc/react";
 
 import { PostView } from "./_components/postview";
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Home() {
   noStore();
 
-  return (
-    <main className="flex h-screen w-screen flex-col overflow-hidden overscroll-none bg-black text-white">
-      <TabFilters />
-      <div className={"flex grow flex-col md:flex-row md:bg-black"}>
-        <SideBar />
-        <CenterPanel />
-        <SearchPanel />
-      </div>
-      <BottomNavbar />
-    </main>
-  );
+  return <CenterPanel />;
 }
 
-function SideBar() {
+export function SideBar() {
   // const [selectedIndex, setSelectedIndex] = useState(0);
   const { user } = useUser();
+  const router = useRouter()
   console.log(user);
   const navItems = [
     <div className={"flex flex-row items-center space-x-2"}>
@@ -100,7 +89,7 @@ function SideBar() {
           </button>
         ))}
         <button
-          type="submit"
+          onClick={() => {router.push("/createpost")}}
           className={
             "hidden w-full max-w-64 rounded-full bg-blue-50 px-6 py-4 font-bold text-black lg:block"
           }
@@ -148,7 +137,7 @@ function SideBar() {
   );
 }
 
-function SearchPanel() {
+export function SearchPanel() {
   return (
     <div className="hidden items-start justify-start bg-black md:flex md:flex-1 md:flex-col">
       <div
@@ -191,7 +180,7 @@ function SearchPanel() {
   );
 }
 
-function CenterPanel() {
+export function CenterPanel() {
   const { data, isLoading, error } = api.post.getAll.useQuery();
 
   if (isLoading || error) {
@@ -222,7 +211,7 @@ function CenterPanel() {
   );
 }
 
-function BottomNavbar() {
+export function BottomNavbar() {
   const bottomNavItems = [
     <BsFillHouseDoorFill className={"h-6 w-6"} />,
     <BsSearch className={"h-6 w-6"} />,
@@ -249,11 +238,12 @@ function BottomNavbar() {
   );
 }
 
-function TabFilters() {
+export function TabFilters() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const { user } = useUser();
   const tabs = ["For you", "Following"];
-
+  const param = useParams();
+  console.log({ param });
   return (
     <div className={"flex w-full flex-row md:h-16"}>
       <div className="hidden justify-between bg-black md:flex md:flex-1 md:flex-col">
@@ -266,49 +256,65 @@ function TabFilters() {
         </div>
       </div>
 
-      <div
-        className={
-          "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
-        }
-      >
+      {param.slug ? (
         <div
           className={
-            "flex w-full flex-row items-center justify-between p-4 md:hidden"
+            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
           }
         >
-          <div className={"flex w-1/2 flex-row items-center gap-4"}>
-            {user ? (
-              <UserButton/>
-            ) : (
-              <SignInButton>
-                <BsBoxArrowInRight className={"h-6 w-6"} />
-              </SignInButton>
-            )}
-            <p className={"text-lg font-bold"}>Home</p>
+          <div
+            className={
+              "flex w-full flex-row items-center justify-start gap-3 p-4"
+            }
+          >
+            <Link href={"/"}>
+              <BsArrowLeft className={"h-6 w-6"} />
+            </Link>
+            <p className={"text-lg font-bold"}>{param.slug}</p>
           </div>
-          <BsGear className={"w-6 h-6"}/>
         </div>
-        <div className={"flex w-full flex-row md:h-full"}>
-          {tabs.map((tab, index) => (
-            <div
-              key={index}
-              className={
-                "flex w-1/2 flex-col items-center justify-end"
-              }
-            >
-              <button
-                className={`flex flex-col items-center justify-end p-2 ${selectedIndex === index ? "border-b-4 border-b-blue-500 font-bold text-white" : "border-b-4 border-b-black text-slate-500"}`}
-                onClick={() => {
-                  setSelectedIndex(index);
-                }}
-              >
-                <p className={"text-center"}>{tab}</p>
-              </button>
+      ) : (
+        <div
+          className={
+            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
+          }
+        >
+          <div
+            className={
+              "flex w-full flex-row items-center justify-between p-4 md:hidden"
+            }
+          >
+            <div className={"flex w-1/2 flex-row items-center gap-4"}>
+              {user ? (
+                <UserButton />
+              ) : (
+                <SignInButton>
+                  <BsBoxArrowInRight className={"h-6 w-6"} />
+                </SignInButton>
+              )}
+              <p className={"text-lg font-bold"}>Home</p>
             </div>
-          ))}
+            <BsGear className={"h-6 w-6"} />
+          </div>
+          <div className={"flex w-full flex-row md:h-full"}>
+            {tabs.map((tab, index) => (
+              <div
+                key={index}
+                className={"flex w-1/2 flex-col items-center justify-end"}
+              >
+                <button
+                  className={`flex flex-col items-center justify-end p-2 ${selectedIndex === index ? "border-b-4 border-b-blue-500 font-bold text-white" : "border-b-4 border-b-black text-slate-500"}`}
+                  onClick={() => {
+                    setSelectedIndex(index);
+                  }}
+                >
+                  <p className={"text-center"}>{tab}</p>
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-
+      )}
       <div className="hidden items-start justify-center bg-black md:flex md:flex-1 md:flex-col">
         <div
           className={

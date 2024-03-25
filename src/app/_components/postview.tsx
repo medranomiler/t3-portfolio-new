@@ -1,6 +1,7 @@
-import { BsChat, BsHandThumbsUpFill, BsHeart, BsRecycle } from "react-icons/bs";
+import { BsChat, BsHeart } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import type { RouterOutputs } from "~/trpc/shared";
+import Link from "next/link"
 
 type PostWithUser = RouterOutputs["post"]["getAll"][number];
 export function PostView(props: PostWithUser) {
@@ -8,10 +9,12 @@ export function PostView(props: PostWithUser) {
   return (
     <div
       key={post.id}
-      className="flex min-h-36 w-full flex-row gap-3 border-b border-b-slate-500 bg-black p-4"
+      className="flex min-h-36 w-full flex-row gap-3 border-t border-t-slate-500 bg-black p-4"
     >
       <div className={""}>
-        <img src={author.imageUrl} className="h-10 w-10 rounded-full" />
+        <Link href={`/${author.username}`}>
+          <img src={author.imageUrl} className="h-10 w-10 rounded-full" />
+        </Link>
       </div>
       <div className={"flex flex-1 flex-col justify-between"}>
         <div className={"flex h-10 w-full flex-row justify-between"}>
