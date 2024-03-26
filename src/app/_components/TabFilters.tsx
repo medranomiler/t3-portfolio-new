@@ -23,7 +23,7 @@ export function TabFilters() {
 
   return (
     <div className={"flex w-full flex-row md:h-16"}>
-      <div className="hidden justify-between bg-black md:flex md:flex-1 md:flex-col">
+      <div className="hidden justify-between bg-black sm:flex sm:flex-1 sm:flex-col">
         <div className={"flex h-fit w-full flex-col items-end px-4"}>
           <button
             className={"h-16 w-16 flex-row justify-center p-4 lg:block lg:w-64"}
@@ -36,7 +36,7 @@ export function TabFilters() {
       {param.slug ? (
         <div
           className={
-            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
+            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black sm:min-w-[30rem] sm:max-w-xl"
           }
         >
           <div
@@ -53,12 +53,12 @@ export function TabFilters() {
       ) : (
         <div
           className={
-            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black md:min-w-[30rem] md:max-w-xl"
+            "w-full border-x border-b border-x-slate-500 border-b-slate-500 bg-black sm:min-w-[30rem] sm:max-w-xl"
           }
         >
           <div
             className={
-              "flex w-full flex-row items-center justify-between p-4 md:hidden"
+              "flex w-full flex-row items-center justify-between p-4 sm:hidden"
             }
           >
             <div className={"flex w-1/2 flex-row items-center gap-4"}>
@@ -92,7 +92,7 @@ export function TabFilters() {
           </div>
         </div>
       )}
-      <div className="hidden items-start justify-center bg-black md:flex md:flex-1 md:flex-col">
+      <div className="hidden items-start justify-center bg-black sm:flex sm:flex-1 sm:flex-col">
         <div
           className={
             "hidden h-10 w-full max-w-[20rem] bg-black px-4 pt-1 lg:block"

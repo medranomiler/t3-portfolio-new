@@ -20,7 +20,7 @@ export function CenterPanel() {
 
   return (
     <div
-      className="h-screen w-full overflow-y-scroll overscroll-none border-x border-slate-500 bg-black pb-24 md:min-w-[30rem] md:max-w-xl md:pb-16"
+      className="h-screen w-full overflow-y-scroll overscroll-none border-x border-slate-500 bg-black pb-24 sm:min-w-[30rem] sm:max-w-xl sm:pb-16"
       style={{ scrollbarWidth: "none" }}
     >
       <CreatePostWizard />

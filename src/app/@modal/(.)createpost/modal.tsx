@@ -22,7 +22,7 @@ export function Modal({ children }: { children: React.ReactNode }) {
 
   return createPortal(
     <div className={"absolute top-0 bottom-0 right-0 left-0 bg-[#ffffff40] flex flex-row justify-center items-center z-50"}>
-      <dialog ref={dialogRef} className={"w-[90%] max-w-[500px] p-4 bg-black rounded-xl"} onClose={onDismiss}>
+      <dialog ref={dialogRef} className={"w-[90%] max-w-[500px] p-4 bg-black rounded-3xl"} onClose={onDismiss}>
         <div className={"w-full"}>
         <button onClick={onDismiss} className="close-button">
           <BsX className={"h-6 w-6 text-white"}/>

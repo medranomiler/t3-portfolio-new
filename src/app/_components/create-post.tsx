@@ -3,7 +3,6 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import { api } from "~/trpc/react";
 
 export function CreatePostWizard() {
@@ -14,7 +13,7 @@ export function CreatePostWizard() {
   const createPost = api.post.create.useMutation({
     onSuccess: () => {
       setContent("");
-      router.replace("/")
+      router.back()
     },
   });
 

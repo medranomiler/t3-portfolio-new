@@ -34,7 +34,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <main className="flex h-screen w-screen flex-col overflow-hidden overscroll-none bg-black text-white">
               <TabFilters />
-              <div className={"flex grow flex-col md:flex-row md:bg-black"}>
+              <div className={"flex grow flex-col sm:flex-row sm:bg-black"}>
                 <SideBar />
                 {children}
                 <SearchPanel />

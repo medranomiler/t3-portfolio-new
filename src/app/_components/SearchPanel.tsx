@@ -1,6 +1,6 @@
 export function SearchPanel() {
     return (
-      <div className="hidden items-start justify-start bg-black md:flex md:flex-1 md:flex-col">
+      <div className="hidden items-start justify-start bg-black sm:flex sm:flex-1 sm:flex-col">
         <div
           className={
             "hidden w-full max-w-[20rem] gap-y-4 bg-black p-4 lg:flex lg:flex-col"
