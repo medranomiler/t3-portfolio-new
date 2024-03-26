@@ -4,7 +4,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { TabFilters } from "./_components/Tabs";
+import { TabFilters } from "./_components/TabFilters";
 import { BottomNavbar } from "./_components/BottomNavbar";
 import { SearchPanel } from "./_components/SearchPanel";
 import { SideBar } from "./_components/SideBar";
