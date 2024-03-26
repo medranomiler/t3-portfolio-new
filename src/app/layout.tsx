@@ -4,7 +4,10 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { TabFilters, SideBar, SearchPanel, BottomNavbar } from "./page";
+import { TabFilters } from "./_components/Tabs";
+import { BottomNavbar } from "./_components/BottomNavbar";
+import { SearchPanel } from "./_components/SearchPanel";
+import { SideBar } from "./_components/SideBar";
 
 const inter = Inter({
   subsets: ["latin"],
