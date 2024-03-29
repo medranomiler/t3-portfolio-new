@@ -2,10 +2,14 @@ import { BsChat, BsHeart } from "react-icons/bs";
 import { AiOutlineRetweet } from "react-icons/ai";
 import type { RouterOutputs } from "~/trpc/shared";
 import Link from "next/link"
-
+import { api } from "~/trpc/react"
 type PostWithUser = RouterOutputs["post"]["getAll"][number];
+
 export function PostView(props: PostWithUser) {
   const { post, author } = props;
+  const {data} = api.post.getChildPosts.useQuery({postId: post.id});
+
+
   return (
     <div
       key={post.id}
@@ -29,16 +33,19 @@ export function PostView(props: PostWithUser) {
             "flex h-6 w-full flex-row items-center justify-between px-[20%]"
           }
         >
-          <div className={"flex flex-row items-center gap-2"}>
+          <div className={"flex flex-row items-center gap-2 w-1/3 h-full"}>
             <BsChat />
-            {Math.floor(Math.random() * 100)}
+            {data?.length}
           </div>
-          <div className={"flex flex-row items-center gap-2"}>
+          <div className={"flex flex-row items-center gap-2 w-1/3 h-full"}>
             <AiOutlineRetweet />
             {Math.floor(Math.random() * 100)}
           </div>
-          <div className={"flex flex-row items-center gap-2"}>
-            <BsHeart />
+          <div className={"flex flex-row items-center gap-2 w-1/3 h-full"}>
+            <button>
+              <BsHeart />
+            </button>
+            
             {Math.floor(Math.random() * 100)}
           </div>
         </div>

@@ -114,4 +114,46 @@ export const postRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
   }),
+
+  getChildPosts: publicProcedure
+    .input(z.object({ postId: z.number() }))
+    .query(async ({ ctx, input }) => {
+        const post = await ctx.db.post.findUnique({
+            where: { id: Number(input.postId) },
+            include: { childPosts: true }, // Include the childPosts association
+        });
+
+        if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+
+        return post.childPosts;
+    }),
+
+    // likePost: privateProcedure
+    // .input(z.object({ postId: z.number() }))
+    // .mutation(async ({ ctx, input }) => {
+    //     const { postId } = input;
+        
+    //     // Find the post by its ID
+    //     const post = await ctx.db.post.findUnique({
+    //         where: { id: postId },
+    //         select: { likes: true }, // Select only the likes field
+    //     });
+
+    //     // If the post doesn't exist, throw an error
+    //     if (!post) {
+    //         throw new TRPCError({
+    //             code: "NOT_FOUND",
+    //             message: "Post not found",
+    //         });
+    //     }
+
+    //     // Increment the likes count
+    //     const updatedPost = await ctx.db.post.update({
+    //         where: { id: postId },
+    //         data: { likes: post.likes?? + 1 },
+    //     });
+
+    //     return updatedPost;
+    // }),
+
 });
